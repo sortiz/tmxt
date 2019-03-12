@@ -27,7 +27,7 @@ en es
 ### `tmxt.py` 
 
 ```bash
-$ python3 tmxt.py --codelist en,fr tm.fr-en.tmx fr-en.txt
+$ python3 tmxt.py --codelist en,fr tm.fr-en.tmx en-fr.txt
 ```
 
 Other

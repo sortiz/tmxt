@@ -24,3 +24,15 @@ $ cat file.tmx | python3 tmxplore.py
 en es
 ```
 
+### `tmxt.py` 
+
+```bash
+$ python3 tmxt.py --codelist en,fr tm.fr-en.tmx fr-en.txt
+```
+
+Other
+
+```bash
+$ zcat largefile.tmx.gz | python3 tmxt.py --codelist en,es |gzip > bitext.en-es.gz
+```
+

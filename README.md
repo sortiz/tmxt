@@ -1,7 +1,7 @@
 # tmxt
 
 This tool consists on two scripts:
-* `tmxplore.py`, a script to determin the language codes available inside a particular TMX file by looking to an excerpt or even the whole file.
+* `tmxplore.py`, a script to determine the language codes available inside a particular TMX file by looking to an excerpt or even the whole file.
 * `tmxt.py`, to effectively transform a TMX to a tab-separated text file using the language code list provided in the command
 
 # Requirements

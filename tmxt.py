@@ -22,7 +22,6 @@ def process_tmx(input, output, codelist):
     curtuv   = []
     intuv    = False
     tu       = {}
-    p0       = re.compile(r'<.*?>')
     p1       = re.compile(r'\n')
     p2       = re.compile(r'  *')    
     fmt      = ("{}\t"*len(codelist)).strip()+"\n"
@@ -43,13 +42,13 @@ def process_tmx(input, output, codelist):
             intuv = True
             
     def ee(name):
-        nonlocal intuv, curtuv, p0, p1, p2, tu, curlang, codelist, fmt, output
+        nonlocal intuv, curtuv, p1, p2, tu, curlang, codelist, fmt, output
         if name == "tu":
             output.write(fmt.format(*[tu[lang] for lang in codelist]))
 
         elif name == "seg":
             intuv = False
-            mystr = p2.sub(' ', p1.sub(' ', p0.sub(' ', "".join(curtuv)))).strip()
+            mystr = p2.sub(' ', p1.sub(' ', "".join(curtuv))).strip()
             tu[curlang] = mystr
             curlang = ""
     

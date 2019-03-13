@@ -52,8 +52,6 @@ def process_tmx(input, output, codelist):
             mystr = p2.sub(' ', p1.sub(' ', p0.sub(' ', "".join(curtuv)))).strip()
             tu[curlang] = mystr
             curlang = ""
-        elif intuv:
-            curtuv.append("")
     
     def cd(data):
         nonlocal intuv, curtuv

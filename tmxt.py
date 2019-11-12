@@ -17,6 +17,10 @@ import re
 import sys
 import xml.parsers.expat
 
+# rewrite temporary default encoding
+import _locale
+_locale._getdefaultlocale = (lambda *args: ['en_US', 'utf_8_sig'])
+
 def process_tmx(input, output, codelist):
     curlang  = ""
     curtuv   = []

@@ -71,7 +71,7 @@ if __name__ == '__main__':
 
     list = arguments["--codelist"].split(",")
     
-    if len(list) > 1:
+    if len(list) > 0:
         process_tmx(input, output, list)
     
     input.close()

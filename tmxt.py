@@ -52,7 +52,7 @@ def process_tmx(input, output, codelist):
     def ee(name):
         nonlocal intuv, intprop, curtuv, curprop, curtype, p1, p2, tu, curlang, codelist, fmt, output
         if name == "tu":
-            output.write(fmt.format(*[tu[lang] for lang in codelist]))
+            output.write(fmt.format(*[tu[code] if not isinstance(tu[code], list) else '\t'.join(tu[code]) for code in codelist]))
 
         elif name == "seg":
             intuv = False
@@ -62,7 +62,10 @@ def process_tmx(input, output, codelist):
         elif name == "prop":
             introp = False
             mystr = p2.sub(' ', p1.sub(' ', "".join(curprop))).strip()
-            tu[curtype] = mystr
+            if curtype in tu and isinstance(tu[curtype], list):
+                tu[curtype].append(mystr)
+            else:
+                tu[curtype] = [mystr]
             curtype = ""
     
     def cd(data):
@@ -84,10 +87,10 @@ if __name__ == '__main__':
     input = sys.stdin.buffer if not arguments["INPUT_FILE"] else open(arguments["INPUT_FILE"], "rb")
     output = sys.stdout if not arguments["OUTPUT_FILE"] else open(arguments["OUTPUT_FILE"], "w")    
 
-    list = arguments["--codelist"].split(",")
+    codelist = arguments["--codelist"].split(",")
     
-    if len(list) > 1:
-        process_tmx(input, output, list)
+    if len(codelist) > 1:
+        process_tmx(input, output, codelist)
     
     input.close()
     output.close()

@@ -22,6 +22,7 @@ def process_tmx(input, output, codelist):
     curlang  = ""
     curtuv   = []
     intuv    = False
+    numlangs = 0
     tu       = {}
     intprop  = True
     curtype  = ""
@@ -31,7 +32,7 @@ def process_tmx(input, output, codelist):
     fmt      = ("{}\t"*(len(codelist))).strip()+"\n"
 
     def se(name, attrs):
-        nonlocal intuv, intprop, curtuv, curprop, curtype, tu, curlang, codelist
+        nonlocal intuv, intprop, curtuv, curprop, curtype, tu, curlang, codelist, numlangs
         if intuv:
             curtuv.append("")
         elif name == "tu":
@@ -41,6 +42,7 @@ def process_tmx(input, output, codelist):
                 curlang = attrs["xml:lang"]
             elif "lang" in attrs:
                 curlang = attrs["lang"]
+            numlangs += 1
         elif name == "seg":
             curtuv = []
             intuv = True
@@ -50,9 +52,10 @@ def process_tmx(input, output, codelist):
             curprop = []
             
     def ee(name):
-        nonlocal intuv, intprop, curtuv, curprop, curtype, p1, p2, tu, curlang, codelist, fmt, output
+        nonlocal intuv, intprop, curtuv, curprop, curtype, p1, p2, tu, curlang, codelist, numlangs, fmt, output
         if name == "tu":
-            output.write(fmt.format(*[tu[code] if not isinstance(tu[code], list) else '\t'.join(tu[code]) for code in codelist]))
+            output.write(fmt.format(*[tu[code] if not isinstance(tu[code], list) else '\t'.join(tu[code][:numlangs]) for code in codelist]))
+            numlangs = 0
 
         elif name == "seg":
             intuv = False
@@ -67,7 +70,7 @@ def process_tmx(input, output, codelist):
             else:
                 tu[curtype] = [mystr]
             curtype = ""
-    
+
     def cd(data):
         nonlocal intuv, curtuv, intprop, curprop
         if intuv:

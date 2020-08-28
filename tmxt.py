@@ -6,7 +6,7 @@ Usage:
 
 Options:
   --codelist=<langcodes>   Comma-separated list of langcodes (i.e. "en,es").
-                           TU priopierties can also be specified
+                           TU propierties can also be specified
   
 I/O Defaults:
   INPUT_FILE               Defaults to stdin.

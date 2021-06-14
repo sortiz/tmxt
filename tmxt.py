@@ -84,7 +84,7 @@ def process_tmx(input, output, codelist):
     p.CharacterDataHandler = cd
     p.ParseFile(input) 
 
-if __name__ == '__main__':
+def main():
     arguments = docopt(__doc__, version='tmxt 1.1')
     
     input = sys.stdin.buffer if not arguments["INPUT_FILE"] else open(arguments["INPUT_FILE"], "rb")
@@ -97,3 +97,7 @@ if __name__ == '__main__':
     
     input.close()
     output.close()
+
+if __name__ == '__main__':
+    main()
+

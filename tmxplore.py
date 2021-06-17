@@ -46,7 +46,7 @@ def explore(fd, ntus=10):
 
     print_result(langlist)
 
-if __name__ == '__main__':
+def main():
     arguments = docopt(__doc__, version='tmxplore 1.0')
 
     fd = sys.stdin.buffer if not arguments["INPUT_FILE"] else open(arguments["INPUT_FILE"], "rb")
@@ -56,4 +56,7 @@ if __name__ == '__main__':
         explore(fd, int(arguments["--no_tus"]))        
 
     fd.close()
-    
+
+if __name__ == '__main__':
+    main()
+

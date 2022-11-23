@@ -22,6 +22,7 @@ def process_tmx(input, output, codelist):
     curlang  = ""
     curtuv   = []
     intuv    = False
+    inph     = False
     numlangs = 0
     tu       = {}
     intprop  = True
@@ -30,10 +31,12 @@ def process_tmx(input, output, codelist):
     p1       = re.compile(r'\n')
     p2       = re.compile(r'  *')    
     fmt      = ("{}\t"*(len(codelist))).strip()+"\n"
-
+  
     def se(name, attrs):
-        nonlocal intuv, intprop, curtuv, curprop, curtype, tu, curlang, codelist, numlangs
+        nonlocal intuv, intprop, curtuv, curprop, curtype, tu, curlang, codelist, numlangs, inph
         if intuv:
+            if name in ["ph", "ept", "bpt", "prop"]:
+                inph = True
             curtuv.append("")
         elif name == "tu":
             tu = {i:'' for i in codelist}
@@ -46,13 +49,15 @@ def process_tmx(input, output, codelist):
         elif name == "seg":
             curtuv = []
             intuv = True
+        elif name == "field":
+            pass
         elif name == "prop":
             intprop = True
             curtype = attrs['type']
             curprop = []
             
     def ee(name):
-        nonlocal intuv, intprop, curtuv, curprop, curtype, p1, p2, tu, curlang, codelist, numlangs, fmt, output
+        nonlocal intuv, intprop, curtuv, curprop, curtype, p1, p2, tu, curlang, codelist, numlangs, fmt, output, inph
         if name == "tu":
             output.write(fmt.format(*[tu[code] if not isinstance(tu[code], list) else '\t'.join(tu[code][:numlangs]) for code in codelist]))
             numlangs = 0
@@ -70,13 +75,16 @@ def process_tmx(input, output, codelist):
             else:
                 tu[curtype] = [mystr]
             curtype = ""
+        elif name in ["ph", "ept", "bpt", "prop"]:
+            inph = False
 
     def cd(data):
         nonlocal intuv, curtuv, intprop, curprop
         if intuv:
-            curtuv.append(data)
+            if not inph:
+                curtuv.append(data.replace("\t", " "))
         if intprop:
-            curprop.append(data)
+            curprop.append(data.replace("\t", " "))
 
     p = xml.parsers.expat.ParserCreate()
     p.StartElementHandler  = se
@@ -100,4 +108,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
